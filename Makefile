@@ -1,6 +1,8 @@
 include .env
 
-# dev
+#DOCKER COMPOSE
+
+# dev environment
 
 .PHONY : build
 
@@ -26,7 +28,7 @@ logs:
 
 	docker-compose logs -f
 
-	# production
+	# production environment
 
 .PHONY : build-production
 
@@ -46,3 +48,11 @@ down-production:
 
 	docker-compose -f docker-production.yml down
 
+
+# PRISMA
+
+.PHONY : introspect
+
+introspect:
+
+	dotenv -e .env npx prisma introspect

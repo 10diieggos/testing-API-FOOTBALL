@@ -1,8 +1,16 @@
-CREATE TABLE "public"."User" (
+CREATE TABLE "public"."countries" (
   id SERIAL PRIMARY KEY NOT NULL,
-  name VARCHAR(255),
-  email VARCHAR(255) UNIQUE NOT NULL
+  country VARCHAR(255),
+  code VARCHAR(255),
+  flag VARCHAR(255)
 );
+
+
+
+
+
+
+-- Prisma examples
 
 CREATE TABLE "public"."Post" (
   id SERIAL PRIMARY KEY NOT NULL,
