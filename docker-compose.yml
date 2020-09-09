@@ -1,0 +1,38 @@
+version: '3.2'
+services: 
+  db:
+    image: postgres:12.4
+    # command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - ./DB_DATA:/var/lib/postgresql/data
+
+
+  
+#   myproject:
+#     depends_on:
+#       - db
+#     build: .
+#     command: npm run-script dev
+#     environment: 
+#       NODE_ENV: development
+#     ports:
+#       - 80:${SERVER_PORT}
+#     volumes:
+#       - .:/home/app/
+#       - /home/app/node_modules
+#     restart: always
+#     logging: 
+#       driver: 'json-file'
+#       options: 
+#         max-size: '10m'
+#         max-file: '5'
+    
+# # Video1
+# # Tudo o que você precisa saber para rodar Node.js com Docker
+# # https://www.youtube.com/watch?v=-StV4sf9N0g
+# # https://walde.co/2016/08/30/tudo-que-voce-precisa-saber-para-rodar-sua-aplicacao-nodejs-com-docker/

@@ -1,0 +1,19 @@
+{
+  "name": "myproject",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon -r dotenv/config index.js",
+    "start": "pm2 start index.js --watch --no-daemon"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@prisma/cli": "^2.6.2",
+    "dotenv": "^8.2.0"
+  },
+  "dependencies": {
+    "@prisma/client": "^2.6.2"
+  }
+}
