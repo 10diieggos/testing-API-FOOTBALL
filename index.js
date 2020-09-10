@@ -1,37 +1,28 @@
-const { PrismaClient } = require("@prisma/client")
+//.env
+const { SERVER_PORT, HOST, RAPIDAPI_KEY } = process.env
 
-const prisma = new PrismaClient()
-
+//axios
 const axios = require("axios");
 
-(async () => {
- 
-  let response = await axios({
-    "method":"GET",
-    "url":"https://api-football-v1.p.rapidapi.com/v2/countries",
-    "headers":{
-      "content-type":"application/octet-stream",
-      "x-rapidapi-host":"api-football-v1.p.rapidapi.com",
-      "x-rapidapi-key": process.env.RAPIDAPI_KEY,
-      "useQueryString":true
-    }
-  })
+//express
+const express = require('express');
+const app = express();
+//bodyparser
+const bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
-  let { countries } = response.data.api
-  console.log(countries);
+//router apiControllers
+const get_leagues_from_country = require('./apiControllers/get_leagues_from_country');
+app.use('/', get_leagues_from_country);
 
-  // // countries.forEach(async c => {
-    
-  // //   let { country, code, flag } = c
-  // //   await prisma.countries.create({
-  // //       data: {
-  // //         country,
-  // //         code,
-  // //         flag
-  // //       }
-  // //     })
+//router apisoccerControllers
+const get_leagues_brazil = require('./apisoccerControllers/get_leagues_brazil');
+app.use('/', get_leagues_brazil);
 
+const get_brazil_serieA = require('./apisoccerControllers/get_brazil_serieA');
+app.use('/', get_brazil_serieA);
 
-  // });
-
-})()
+app.listen(SERVER_PORT, HOST, () => {
+  console.log('Servidor rodando');
+});

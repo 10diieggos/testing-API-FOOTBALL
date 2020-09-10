@@ -51,8 +51,8 @@ down-production:
 
 # PRISMA
 
-.PHONY : introspect
+.PHONY : dev
 
-introspect:
+dev:
 
-	dotenv -e .env npx prisma introspect
+	npm run-script dev

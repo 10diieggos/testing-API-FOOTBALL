@@ -1,8 +1,6 @@
-CREATE TABLE "public"."countries" (
+CREATE TABLE "public"."brasil_leagues" (
   id SERIAL PRIMARY KEY NOT NULL,
-  country VARCHAR(255),
-  code VARCHAR(255),
-  flag VARCHAR(255)
+  leagues JSON
 );
 
 
