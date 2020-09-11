@@ -8,7 +8,7 @@ RUN useradd --user-group --create-home --shell /bin/false app &&\
   npm install --global npm@6.14.8
 
 #criando variável de ambiente para a pasta de trabalho
-ENV HOME=/home/app/myproject/
+ENV HOME=/home/app/
 
 #copiando o gerenciador de dependências para a pasta /home/app/MyFirstAPIRest/ 
 # dentro da imagem

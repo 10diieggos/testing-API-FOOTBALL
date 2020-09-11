@@ -13,24 +13,24 @@ services:
 
 
   
-#   myproject:
-#     depends_on:
-#       - db
-#     build: .
-#     command: npm run-script dev
-#     environment: 
-#       NODE_ENV: development
-#     ports:
-#       - 80:${SERVER_PORT}
-#     volumes:
-#       - .:/home/app/
-#       - /home/app/node_modules
-#     restart: always
-#     logging: 
-#       driver: 'json-file'
-#       options: 
-#         max-size: '10m'
-#         max-file: '5'
+  myproject:
+    depends_on:
+      - db
+    build: .
+    command: npm run-script dev
+    environment: 
+      NODE_ENV: development
+    ports:
+      - 80:${SERVER_PORT}
+    volumes:
+      - .:/home/app/
+      # - /home/app/node_modules
+    restart: always
+    logging: 
+      driver: 'json-file'
+      options: 
+        max-size: '10m'
+        max-file: '5'
     
 # # Video1
 # # Tudo o que você precisa saber para rodar Node.js com Docker
