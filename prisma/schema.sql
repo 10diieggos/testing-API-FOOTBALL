@@ -1,6 +1,6 @@
-CREATE TABLE "public"."brasil_leagues" (
+CREATE TABLE "public"."teams_SeriA" (
   id SERIAL PRIMARY KEY NOT NULL,
-  leagues JSON
+  teams JSON
 );
 
 

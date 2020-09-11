@@ -18,3 +18,8 @@ model brasil_leagues {
   id      Int   @default(autoincrement()) @id
   leagues Json?
 }
+
+model teams_SerieA {
+  id    Int   @default(autoincrement()) @id
+  teams Json?
+}
