@@ -1,6 +1,7 @@
-CREATE TABLE "public"."teams_SeriA" (
+CREATE TABLE "public"."timezone" (
   id SERIAL PRIMARY KEY NOT NULL,
-  teams JSON
+  headers JSON,
+  data JSON
 );
 
 

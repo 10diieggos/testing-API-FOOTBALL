@@ -23,3 +23,9 @@ model teams_SerieA_2020 {
   id    Int   @default(autoincrement()) @id
   teams Json?
 }
+
+model timezone {
+  id      Int   @default(autoincrement()) @id
+  headers Json?
+  data    Json?
+}
