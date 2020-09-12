@@ -1,7 +1,7 @@
 //this endpoint consumes paid API
 
 const { RAPIDAPI_KEY } = process.env;
-const league_id = '1397'
+const league_id = '1396'
 //express
 const express = require('express');
 const router = express.Router();

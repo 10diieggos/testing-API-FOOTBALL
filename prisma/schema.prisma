@@ -19,7 +19,7 @@ model brasil_leagues {
   leagues Json?
 }
 
-model teams_SerieA {
+model teams_SerieA_2020 {
   id    Int   @default(autoincrement()) @id
   teams Json?
 }
