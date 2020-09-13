@@ -1,5 +1,6 @@
-CREATE TABLE "public"."timezone" (
+CREATE TABLE "public"."mydbtable" (
   id SERIAL PRIMARY KEY NOT NULL,
+  endpoint VARCHAR(255),
   headers JSON,
   data JSON
 );

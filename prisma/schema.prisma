@@ -7,25 +7,9 @@ datasource db {
   url      = env("DB_URL")
 }
 
-model countries {
-  id      Int     @default(autoincrement()) @id
-  country String?
-  code    String?
-  flag    String?
-}
-
-model brasil_leagues {
-  id      Int   @default(autoincrement()) @id
-  leagues Json?
-}
-
-model teams_SerieA_2020 {
-  id    Int   @default(autoincrement()) @id
-  teams Json?
-}
-
-model timezone {
-  id      Int   @default(autoincrement()) @id
-  headers Json?
-  data    Json?
+model mydbtable {
+  id       Int     @default(autoincrement()) @id
+  endpoint String?
+  headers  Json?
+  data     Json?
 }

@@ -12,11 +12,10 @@ const prisma = new PrismaClient();
 const axios = require("axios");
 
 
-router.get('/myapi/:from/:newendpoint', async (req, res) => {
-  const { from, newendpoint } = req.params
-  console.log(from, newendpoint);
-  const endpoint = newendpoint.replace(/barrasdeendereco/g, '/')
-  console.log(endpoint);
+router.post('/myapi/:from', async (req, res) => {
+  const { from } = req.params
+  const { endpoint } = req.body
+  console.log(from, endpoint);
   try {
     switch (from) {
       case "api":
@@ -30,29 +29,37 @@ router.get('/myapi/:from/:newendpoint', async (req, res) => {
             "useQueryString": true
           }
         })
+        
+        const { headers, data } = response
 
-        const {headers, data} = response
-
-        await prisma.timezone.deleteMany();
+          
+          await prisma.mydbtable.deleteMany({ where: { endpoint } });
+          
+          
+          await prisma.mydbtable.create({
+            data: {
+              endpoint,
+              headers,
+              data
+            },
+          });
+          
+          const newdbdata = await prisma.mydbtable.findMany({where: {endpoint}})
+          console.log(newdbdata);
+          res.send(newdbdata);
+          
+          break;
         
-        await prisma.timezone.create({
-          data: {
-            headers,
-            data
-          },
-        });
-        
-        const newdbdata = await prisma.timezone.findMany();
-        console.log(newdbdata);
-        res.send(newdbdata);
-        
-        break;
+  
       
       case "database":
-        const dbdata = await prisma.timezone.findMany();
-        console.log(dbdata);
-        res.send(dbdata);
-       break;
+       
+          const dbdata = await prisma.mydbtable.findMany({where: {endpoint: endpoint}});
+          console.log(dbdata);
+          res.send(dbdata);
+          break;
+      
+        
     }
 
   } catch (error) {
