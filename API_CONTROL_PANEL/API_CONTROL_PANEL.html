@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API_CONTROL_PANEL</title>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+  <h1>TIMEZONE</h1>
+  <p>Get the list of available API time zones to be used in the fixtures endpoint</p>
+  <p>Update Frequency : This endpoint contains all the existing timezone, it is not updated.</p>
+  <p>Recommended Calls : 1 call when you need.</p>
+  <h3>Parameters</h3>
+  <p>This endpoint does not require any parameters</p>
+  <h3>Requests</h3>
+  <p>GET</p>
+  <input id="timezoneURL" name="url" style="width: 600px;" type="text" value="api-football-v1.p.rapidapi.com/v2/timezone">
+  <h3>Response Model</h3>
+  {
+    "api": {
+        "results": 425,
+        "timezone": [
+            "Africa/Abidjan",
+            "Africa/Accra",
+            "Africa/Addis_Ababa",
+            "Africa/Algiers",
+        ]
+    }
+  }
+  <h3>Actions</h3>
+  <button onclick="doEndpointParams('db', timezoneURL)">Call database</button>
+  <button onclick="doEndpointParams('api', timezoneURL)">Call API and update database</button>
+
+  <h1>SEASONS</h1>
+  <p>All seasons are only 4-digit keys, so for a league whose season is 2018-2019</p>
+  <p>like the English Premier League, the 2018-2019 season in the API will be 2018</p>
+  <p>All {season} can be used in other endpoints as filters</p>
+  <p>Update Frequency : This endpoint is updated each time a new league is added.</p>
+  <p>Recommended Calls : 1 call per day.</p>
+  <!-- PARAMETERS -->
+  <h3>Parameters</h3>
+  <p>This endpoint does not require any parameters</p>
+  <!-- REQUESTS -->
+  <h3>Requests</h3>
+  <p>GET ALL</p>
+  <input id="seasonsURL" name="url" style="width: 600px;" type="text" value="api-football-v1.p.rapidapi.com/v2/seasons">
+  <h3>Response Model</h3>
+  {
+    "api": {
+        "results": 10,
+        "seasons": [
+            2010,
+            2011,
+            2012,
+            2013,
+            2014,
+            2015,
+            2016,
+            2017,
+            2018,
+            2019
+        ]
+    }
+  }
+  <h3>Actions</h3>
+  <button onclick="doEndpointParams('db', seasonsURL)">Call database</button>
+  <button onclick="doEndpointParams('api', seasonsURL)">Call API and update database</button>
+
+  <h1>COUNTRIES</h1>
+  <p>The {country} and {code} keys can be used in other endpoints as filters</p>
+  <p>Update Frequency : This endpoint is updated each time a new league from a </p>
+  <p>country not covered by the API is added.</p>
+  <p>Recommended Calls : 1 call per day.</p>
+  <!-- PARAMETERS -->
+  <h3>Parameters</h3>
+  <p>This endpoint does not require any parameters</p>
+  <!-- REQUESTS -->
+  <h3>Requests</h3>
+  <p>GET ALL</p>
+  <input id="countriesURL" name="url" style="width: 600px;" type="text" value="api-football-v1.p.rapidapi.com/v2/countries">
+  <h3>Response Model</h3>
+  {
+    "api": {
+        "results": 62,
+        "countries": [
+            {
+                "country": "Algeria",
+                "code": "DZ",
+                "flag": "https://media.api-sports.io/flags/dz.svg"
+            },
+            {
+                "country": "Argentina",
+                "code": "AR",
+                "flag": "https://media.api-sports.io/flags/ar.svg"
+            },
+            {
+                "country": "Australia",
+                "code": "AU",
+                "flag": "https://media.api-sports.io/flags/au.svg"
+            }
+        ]
+    }
+  }
+  <h3>Actions</h3>
+  <button onclick="doEndpointParams('db', countriesURL)">Call database</button>
+  <button onclick="doEndpointParams('api', countriesURL)">Call API and update database</button>
+  
+
+
+
+
+  <h1>LEAGUES</h1>
+  <p>The {league_id} are unique in the API and represent a league/cup for a specific {season}</p>
+  <p>Ex :</p>
+  <p> - English Premier League, season 2018-2019, league {id} : 2 </p>
+  <p>- English Premier League, season 2019-2020, league {id} : 524</p>
+  <p>Data coverage is indicative and may differ according to leagues, seasons and fixtures</p>
+  <p> Recommended Calls : 1 call per hour.</p>
+  <!-- PARAMETERS -->
+  <h3>Parameters</h3>
+  <table>
+    <tbody><tr>
+        <th>Parameter</th>
+        <th>Type</th>
+        <th>Required</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>league_id</td>
+        <td>integer</td>
+        <td>false</td>
+        <td>Fails if field contains anything other than an integer</td>
+    </tr>
+    <tr>
+        <td>team_id</td>
+        <td>integer</td>
+        <td>false</td>
+        <td>Fails if field contains anything other than an integer</td>
+    </tr>
+    <tr>
+        <td>search</td>
+        <td>string</td>
+        <td>false</td>
+        <td>3 characters minimum | Fails if field has anything other than alphabetic characters</td>
+    </tr>
+    <tr>
+        <td>country</td>
+        <td>string</td>
+        <td>false</td>
+        <td>Fails if field contains anything other than alpha-numeric characters, underscores or dashes</td>
+    </tr>
+    <tr>
+        <td>code</td>
+        <td>string</td>
+        <td>false</td>
+        <td>2 characters | Fails if field has anything other than alphabetic characters | Ex : FR, GB, IT… </td>
+    </tr>
+    <tr>
+        <td>season</td>
+        <td>integer</td>
+        <td>false</td>
+        <td>Fails if field contains anything other than an integer [YYYY]</td>
+    </tr>
+    <tr>
+        <td>current</td>
+        <td>string</td>
+        <td>false</td>
+        <td>Fails if field has anything other than alphabetic characters</td>
+    </tr>
+    <tr>
+        <td>type</td>
+        <td>string</td>
+        <td>false</td>
+        <td>Fails if field has anything other than alphabetic characters</td>
+    </tr>
+</tbody></table>
+  
+  <!-- REQUESTS -->
+  <h3>Requests</h3>
+  <p>GET ALL</p>
+  <input id="leaguesURL" name="url" style="width: 600px;" type="text" value="api-football-v1.p.rapidapi.com/v2/leagues">
+  
+  <h3>Response Model</h3>
+  {
+    "api": {
+        "results": 970,
+        "leagues": [
+            {
+                "league_id": 1,
+                "name": "World Cup",
+                "type": "Cup",
+                "country": "World",
+                "country_code": null,
+                "season": 2018,
+                "season_start": "2018-06-14",
+                "season_end": "2018-07-15",
+                "logo": "https://media.api-sports.io/football/leagues/1.png",
+                "flag": null,
+                "standings": 1,
+                "is_current": 1,
+                "coverage": {
+                    "standings": true,
+                    "fixtures": {
+                        "events": true,
+                        "lineups": true,
+                        "statistics": true,
+                        "players_statistics": false
+                    },
+                    "players": true,
+                    "topScorers": true,
+                    "predictions": true,
+                    "odds": false
+                }
+            }
+        ]
+    }
+}
+  <h3>Actions in API</h3>
+  <button onclick="doEndpointParams('api', leaguesURL)">Call API and update database</button>
+  
+  <br><input id="leagues_{team_id}"type="text" value="37" readonly>
+  <button style="border-color: crimson;" onclick="doEndpointParams('api', leaguesURL ,'leagues_{team_id}', '/team/')">Get all leagues by one {team_id}</button>
+  
+  <h3>Actions in database</h3>
+  <button onclick="doEndpointParams('db', leaguesURL)">GET ALL</button><br>
+  
+  <input id="leagues_{league_id}"type="text">
+  <button onclick="doEndpointParams('database', leaguesURL, 'leagues_{league_id}', 'leagues/league_id/')">Get one league from one {league_id}</button>
+  
+  
+  <br><input name="/team/" id="leagues_{team_id}_database"type="text">
+  <button style="border-color: crimson;" onclick="doEndpointParams('db', leaguesURL, 'leagues_{team_id}_database')">Get all leagues by one {team_id}</button>
+  
+  <br><input name="/team/" id="leagues_{team_id}_{season}_database"type="text" placeholder="team_id">
+  <input name="/team/" id="leagues_{season}_{team_id}_database"type="text"placeholder="season">
+  <button style="border-color: crimson;" onclick="leagues_team_id_season('database', leaguesURL)">Get all leagues in which the {team_id} has played at least one match in one {season}</button>
+  
+  <br><input id="leagues_{search}"type="text">
+  <button onclick="leagues_search('database', leaguesURL, 'leagues_{search}')">Get leagues by search name or country</button>
+
+  <br><input id="leagues_{country}"type="text">
+  <button onclick="doEndpointParams('database', leaguesURL, 'leagues_{country}', 'leagues/country/')">Get all leagues from one {country}</button>
+  
+  <br><input id="leagues_country_{code}"type="text">
+  <button onclick="leagues_country_code('database', leaguesURL, 'leagues_country_{code}')">Get all leagues from one country {code}</button>
+  
+  <br><input id="leagues_country_season" type="text">
+  <input id="leagues_season_country" type="text">
+  <button onclick="leagues_country_season('database', leaguesURL, 'leagues_country_season', 'leagues_season_country')">Get all leagues from one country and season</button>
+  
+  <br><input id="leagues_country_code_season" type="text">
+  <input id="leagues_season_country_code" type="text">
+  <button onclick="leagues_country_code_season('database', leaguesURL, 'leagues_country_code_season', 'leagues_season_country_code')">Get all leagues from one country code and season</button>
+
+
+  <h1>TEAMS</h1>
+  <p>The {team_id} are unique in the API and teams keep it among all the leagues/cups in which they participate</p>
+  <p>Update Frequency : This endpoint is updated several times a week</p>
+  <p>Recommended Calls : 1 call per day.</p>
+  <!-- PARAMETERS -->
+  <h3>Parameters</h3>
+  <table>
+    <tbody><tr>
+        <th>Parameter</th>
+        <th>Type</th>
+        <th>Required</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>team_id</td>
+        <td>integer</td>
+        <td>false</td>
+        <td>Fails if field contains anything other than an integer</td>
+    </tr>
+    <tr>
+        <td>league_id</td>
+        <td>integer</td>
+        <td>false</td>
+        <td>Fails if field contains anything other than an integer</td>
+    </tr>
+    <tr>
+        <td>search</td>
+        <td>string</td>
+        <td>false</td>
+        <td>3 characters minimum | Fails if field has anything other than alphabetic characters</td>
+    </tr>
+</tbody></table>
+  <!-- REQUESTS -->
+  <h3>Requests</h3>
+  <p>GET by search</p>
+  <p>Allows you to search for a team in relation to a team {name} or {country}
+    Spaces must be replaced by underscore for better search performance.
+    EX : Real madrid => real_madrid</p>
+  <input id="teamsURL" name="url" style="width: 600px;" type="text" value="api-football-v1.p.rapidapi.com/v2/teams/search/">/{name} or /{country}
+  <h3>Response Model</h3>
+  {
+    "api": {
+        "results": 5,
+        "teams": [
+            {
+                "team_id": 541,
+                "name": "Real Madrid",
+                "code": null,
+                "logo": "https://media.api-sports.io/football/teams/541.png",
+                "is_national": false,
+                "country": "Spain",
+                "founded": 1902,
+                "venue_name": "Estadio Santiago Bernabéu",
+                "venue_surface": "grass",
+                "venue_address": "Avenida de Concha Espina 1, Chamartín",
+                "venue_city": "Madrid",
+                "venue_capacity": 85454
+            }
+        ]
+    }
+  }
+  <h3>Actions in API</h3>
+  <input id="search_team_by_country" type="text" placeholder="country">
+  <button onclick="search_team_by_country('api', teamsURL, 'search_team_by_country')">Call API and update database</button>
+  
+  <button onclick="search_all_api_teams('api', teamsURL, countriesURL)">DANGER: Call API and update database for All countries</button>
+
+  <h3>Actions in Database</h3>
+  <input id="search_team_by_country_name" type="text" placeholder="country">
+  <input id="search_team_by_name_country" type="text" placeholder="name">
+  <button onclick="search_team_by_country_name('database', teamsURL, 'search_team_by_country_name', 'search_team_by_name_country')">Search teams by country and name</button>
+  
+
+
+
+
+
+  </body>
+  <script src="API_CONTROL_PANEL.js"></script>
+  <script>
+    function doEndpointParams(from, url, id, fix) {
+  
+      let params
+      
+      if (id) {
+        ids = id.split('/')
+        let values = ids.map(id  => {
+          return document.getElementById(id).value
+        });
+        values = values.join('/')
+        if (fix) {
+          params = `${fix}${values}`
+        } else {
+          params = values
+        }
+      }      
+      // console.log(params);
+      switch (from) {
+        case "api":
+          if (params) {
+            getAPI(from, url.value, params)
+          } else {
+            getAPI(from, url.value)
+          }
+          break;
+        case "database":
+            get(from, url.value, id, params)
+          break;
+        case "db":
+            getAll(from, url.value, id, fix)
+          break;
+      }
+    }
+
+
+
+  </script>
+</html>
