@@ -91,6 +91,13 @@ async function getLeaguesByCountry(id) {
   cl(leagues)
 }
 
+async function getLeaguesByCountryAndSeason(id1, id2) {
+  id1 = getValue(id1)
+  id2 = getValue(id2)
+  let leagues = await axiosget(`leagues/By/Country/Season/${id1}/${id2}`)
+  cl(leagues)
+}
+
 //LEAGUES BUTTON FUNCTIONS==============================================================
 
 
@@ -110,7 +117,33 @@ async function getTeamById (id) {
   cl(team)
 }
 
+async function getTeamByCountryAndName(id1, id2) {
+  id1 = getValue(id1)
+  id2 = getValue(id2)
+  let team = await axiosget(`teams/by/country/name/${id1}/${id2}`)
+  cl(team)
+}
+
 //TEAMS BUTTON FUNCTIONS==============================================================
+
+
+
+
+
+//STANDINGS BUTTON FUNCTIONS==============================================================
+async function consoleLogStandings(league_id) {
+  const standings = await getStandings(league_id)
+  console.log(standings);
+}
+
+async function updateStandingsByLeagueId(league_id, apiurl) {
+  league_id = getValue(league_id)
+  let url = getValue(apiurl)
+  let response = await axiosput('standings', `${url}/${league_id}`)
+  cl(response)
+}
+//STANDINGS BUTTON FUNCTIONS==============================================================
+
 
 
 
@@ -134,6 +167,12 @@ async function getCountries() {
 async function getLeagues() {
   const leagues = await axiosget('leagues')
   return (leagues);
+}
+
+async function getStandings(league_id) {
+  league_id = getValue(league_id)
+  const standings = await axiosget(`standings/${league_id}`)
+  return (standings);
 }
 
 //RETURN DATA FUNCTIONS========================================================

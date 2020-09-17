@@ -231,18 +231,18 @@
 <h3>Actions in database</h3>
 <button onclick="consoleLogLeagues()">GET Leagues</button><br>
 
-  <input id="getLeagueByLeagueId" type="text">
-  <button onclick="getLeagueByLeagueId('getLeagueByLeagueId')">Get league from {league_id}</button>
+  <input id="getLeagueByLeagueId" type="text"> 
+  <button onclick="getLeagueByLeagueId('getLeagueByLeagueId')">Get league from {league_id}</button>Brazileirao 2020: 1396 / 1397 / 1472 / 1476
   
   <br><input id="getLeaguesBySearchNameorCountry"type="text">
   <button onclick="getLeaguesBySearchNameorCountry('getLeaguesBySearchNameorCountry')">Get leagues by search name or country</button>
   
-  <br><input id="getLeaguesFromCountry"type="text">
-  <button onclick="getLeaguesFromCountry('getLeaguesFromCountry')">Get leagues from one country</button>
+  <br><input id="getLeaguesByCountry"type="text">
+  <button onclick="getLeaguesByCountry('getLeaguesByCountry')">Get leagues from one country</button>
   
-  <br><input id="leagues_country_season" type="text">
-  <input id="leagues_season_country" type="text">
-  <button onclick="leagues_country_season('database', leaguesURL, 'leagues_country_season', 'leagues_season_country')">Get all leagues from one country and season</button>
+  <br><input id="getLeaguesByCountryAndSeason" type="text">
+  <input id="getLeaguesByCountryAndSeason2" type="text">
+  <button onclick="getLeaguesByCountryAndSeason('getLeaguesByCountryAndSeason','getLeaguesByCountryAndSeason2')">Get all leagues from one country and season</button>
   
 
 
@@ -341,9 +341,9 @@
   <input id="getTeamById">
   <button onclick="getTeamById('getTeamById')">Get team by team_id</button>
   
-  <br><input id="search_team_by_country_name" type="text" placeholder="country">
-  <input id="search_team_by_name_country" type="text" placeholder="name">
-  <button onclick="search_team_by_country_name('database', teamsURL, 'search_team_by_country_name', 'search_team_by_name_country')">Search teams by country and name</button>
+  <br><input id="getTeamByCountryAndName" type="text" placeholder="country">
+  <input id="getTeamByCountryAndName2" type="text" placeholder="name">
+  <button onclick="getTeamByCountryAndName('getTeamByCountryAndName', 'getTeamByCountryAndName2')">Search teams by country and name</button>
   
   <h3>Actions in API</h3>
   <input id="search_team_by_country" type="text" placeholder="country">
@@ -354,9 +354,85 @@
 
 
 
+  <h1 >Standings</h1>
+  <p>Return a table of one or more rankings according to the league / cup. Some competitions have several rankings in a year, group phase, opening ranking, closing ranking etc…</p><p><strong>Update Frequency</strong> : This endpoint is updated every hour.<br>
+    <strong>Recommended Calls</strong> : 1 call per hour for the leagues or teams who have at least one fixture in progress otherwise 1 call per day.</p>
+    <h3 >Parameters</h3><table>
+        <tbody><tr>
+            <th>Parameter</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td>league_id</td>
+            <td>integer</td>
+            <td>true</td>
+            <td>Fails if field contains anything other than an integer</td>
+        </tr>
+    </tbody></table>
+    
+    <h3>Requests</h3>
+    <h4><code>GET</code> By league</h4>
+    <p>Get all Standings from one <code>{league_id}</code>
+    <br>  <input id="api_standings_endpoint" name="url" style="width: 600px;" type="text" value="api-football-v1.p.rapidapi.com/v2/leagueTable">/{league_id}
 
+    <h3>Response Model</h3><pre><code class="lang-json">{
+        <span class="string">"api"</span>: {
+            <span class="string">"results"</span>: <span class="number">1</span>,
+            <span class="string">"standings"</span>: [
+                [
+                    {
+                        <span class="string">"rank"</span>: <span class="number">1</span>,
+                        <span class="string">"team_id"</span>: <span class="number">85</span>,
+                        <span class="string">"teamName"</span>: <span class="string">"Paris Saint Germain"</span>,
+                        <span class="string">"logo"</span>: <span class="string">"https:<span class="comment">//media.api-sports.io/football/teams/<span class="number">85</span>.png"</span>,</span>
+                        <span class="string">"group"</span>: <span class="string">"Ligue <span class="number">1</span>"</span>,
+                        <span class="string">"forme"</span>: <span class="string">"DLWLL"</span>,
+                        <span class="string">"status"</span>: <span class="string">"same"</span>,
+                        <span class="string">"description"</span>: <span class="string">"Promotion - Champions League (Group Stage)"</span>,
+                        <span class="string">"all"</span>: {
+                            <span class="string">"matchsPlayed"</span>: <span class="number">35</span>,
+                            <span class="string">"win"</span>: <span class="number">27</span>,
+                            <span class="string">"draw"</span>: <span class="number">4</span>,
+                            <span class="string">"lose"</span>: <span class="number">4</span>,
+                            <span class="string">"goalsFor"</span>: <span class="number">98</span>,
+                            <span class="string">"goalsAgainst"</span>: <span class="number">31</span>
+                        },
+                        <span class="string">"home"</span>: {
+                            <span class="string">"matchsPlayed"</span>: <span class="number">18</span>,
+                            <span class="string">"win"</span>: <span class="number">16</span>,
+                            <span class="string">"draw"</span>: <span class="number">2</span>,
+                            <span class="string">"lose"</span>: <span class="number">0</span>,
+                            <span class="string">"goalsFor"</span>: <span class="number">59</span>,
+                            <span class="string">"goalsAgainst"</span>: <span class="number">10</span>
+                        },
+                        <span class="string">"away"</span>: {
+                            <span class="string">"matchsPlayed"</span>: <span class="number">17</span>,
+                            <span class="string">"win"</span>: <span class="number">11</span>,
+                            <span class="string">"draw"</span>: <span class="number">2</span>,
+                            <span class="string">"lose"</span>: <span class="number">4</span>,
+                            <span class="string">"goalsFor"</span>: <span class="number">39</span>,
+                            <span class="string">"goalsAgainst"</span>: <span class="number">21</span>
+                        },
+                        <span class="string">"goalsDiff"</span>: <span class="number">67</span>,
+                        <span class="string">"points"</span>: <span class="number">85</span>,
+                        <span class="string">"lastUpdate"</span>: <span class="string">"<span class="number">2019</span>-<span class="number">05</span>-<span class="number">04</span>"</span>
+                    }
+                ]
+            ]
+        }
+    }</code></pre>
 
-
+    <h3>Actions in Database</h3>
+    <input id="consoleLogStandings">
+    <button onclick="consoleLogStandings('consoleLogStandings')">Get team by team_id</button>
+    
+    
+    <h3>Actions in API</h3>
+    <input id="updateStandingsByLeagueId" type="text" placeholder="league_id">
+    <button onclick="updateStandingsByLeagueId('updateStandingsByLeagueId', 'api_standings_endpoint')">Call API and update database</button>
+    
 
 
   </body>

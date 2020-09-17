@@ -163,6 +163,18 @@ router.get('/leagues/By/Country/:country', async (req, res) => {
   })
   res.send({ results: leagues.length, leagues, updated })
 })
+
+router.get('/leagues/By/Country/Season/:country/:season', async (req, res) => {
+  let { country, season } = req.params
+  season = parseInt(season)
+  const response = await find('api-football-v1.p.rapidapi.com/v2/leagues')
+  const updated = response[0]['headers'].date
+  let leagues = response[0]['data'].api.leagues
+  leagues = leagues.filter(league => {
+    return league.country == country && league.season == season
+  })
+  res.json({ results: leagues.length, leagues, updated })
+})
 // LEAGUES ROUTES
 
 
@@ -224,8 +236,46 @@ router.get('/team/by/id/:id', async (req, res) => {
   res.send(team)
 })
 
-
+router.get('/teams/by/country/name/:country/:name', async (req, res) => {
+  let { country, name } = req.params
+  console.log(country);
+  console.log(name);
+  let teams = await find('teams')
+  teams = teams[0].data
+  team = teams.filter(arr => {
+    return arr.country == country && arr.name == name
+  })
+  res.json(team)
+})
 //TEAMS ROUTES
+
+
+
+//STANDINGS ROUTES
+router.get('/standings/:league_id', async (req, res) => {
+  let { league_id } = req.params
+  const response = await find(`api-football-v1.p.rapidapi.com/v2/leagueTable/${league_id}`)
+  const updated = response[0]['headers'].date
+  const standings = response[0]['data'].api.standings
+  const results = response[0]['data'].api.results
+  res.send({ results, standings, updated })
+})
+
+router.put('/standings', async (req, res) => {
+  let { origin } = req.body
+  let response = await axiosget(origin)
+  const { headers, data } = response
+  let saved = await find(origin)
+  if (saved.length) {
+    saved = await update(origin, headers, data)
+    res.send(saved)
+  } else {
+    saved = await create(origin, headers, data)
+    res.send(saved)
+  }
+})
+
+//STANDINGS ROUTES
 
 
 
