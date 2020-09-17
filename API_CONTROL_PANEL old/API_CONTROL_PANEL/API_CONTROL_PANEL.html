@@ -35,6 +35,46 @@
   <h3>Actions in API-FOOTBALL(paid)</h3>
   <button onclick="updateTimezones('api_timezone_endpoint')">Update database</button>
 
+
+
+
+
+  <h1>SEASONS</h1>
+  <p>All seasons are only 4-digit keys, so for a league whose season is 2018-2019</p>
+  <p>like the English Premier League, the 2018-2019 season in the API will be 2018</p>
+  <p>All {season} can be used in other endpoints as filters</p>
+  <p>Update Frequency : This endpoint is updated each time a new league is added.</p>
+  <p>Recommended Calls : 1 call per day.</p>
+  <!-- PARAMETERS -->
+  <h3>Parameters</h3>
+  <p>This endpoint does not require any parameters</p>
+  <!-- REQUESTS -->
+  <h3>Requests</h3>
+  <p>GET ALL</p>
+  <input id="api_seasons_endpoint" name="url" style="width: 600px;" type="text" value="api-football-v1.p.rapidapi.com/v2/seasons">
+  <h3>Response Model</h3>
+  {
+    "api": {
+        "results": 10,
+        "seasons": [
+            2010,
+            2011,
+            2012,
+            2013,
+            2014,
+            2015,
+            2016,
+            2017,
+            2018,
+            2019
+        ]
+    }
+  }
+  <h3>Actions in database</h3>
+  <button onclick="consoleLogSeasons()">GET Seasons</button>
+  <h3>Actions in API-FOOTBALL(paid)</h3>
+  <button onclick="updateSeasons('api_seasons_endpoint')">Update database</button>
+
   </body>
   <script src="API_CONTROL_PANEL.js"></script>
 </html>

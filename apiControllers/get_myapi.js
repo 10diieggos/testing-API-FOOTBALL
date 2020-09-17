@@ -9,6 +9,7 @@ const prisma = new PrismaClient();
 //axios
 const axios = require("axios");
 
+// TIMEZONE ROUTES
 router.get('/timezones', async (req, res) => {
   const response = await find('api-football-v1.p.rapidapi.com/v2/timezone')
   const updated = response[0]['headers'].date
@@ -43,6 +44,31 @@ router.put('/timezones', async (req, res) => {
   }
 })
 
+// SEASONS ROUTES
+
+router.get('/seasons', async (req, res) => {
+  const response = await find('api-football-v1.p.rapidapi.com/v2/seasons')
+  const updated = response[0]['headers'].date
+  const seasons = response[0]['data'].api.seasons
+  const results = response[0]['data'].api.results
+  res.send({ results, seasons, updated })
+})
+
+router.put('/seasons', async (req, res) => {
+  let { origin } = req.body
+  let response = await axiosget(origin)
+  const { headers, data } = response
+  let saved = await find(origin)
+  if (saved.length) {
+    saved = await update(origin, headers, data)
+    res.send(saved)
+  } else {
+    saved = await create(origin, headers, data)
+    res.send(saved)
+  }
+})
+
+// SEASON ROUTES
 // MODULAR FUNCTIONS ==========================================================
 
 async function find(origin) {

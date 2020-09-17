@@ -1,7 +1,7 @@
 const host = '0.0.0.0'
 const port = '80'
 
-//BUTTON FUNCTIONS==============================================================
+//TIMEZONE BUTTON FUNCTIONS==============================================================
 
 async function searchTimezones(id) {
   let valueSearch = getValue(id)
@@ -19,8 +19,22 @@ async function updateTimezones(apiurl) {
   let response = await axiosput('timezones', url)
   cl(response)
 }
+//TIMEZONE BUTTON FUNCTIONS==============================================================
 
-//BUTTON FUNCTIONS==============================================================
+//SEASONS BUTTON FUNCTIONS==============================================================
+
+async function consoleLogSeasons() {
+  const seasons = await getSeasons()
+  console.log(seasons);
+}
+
+async function updateSeasons(apiurl) {
+  let url = getValue(apiurl)
+  let response = await axiosput('seasons', url)
+  cl(response)
+}
+
+//SEASONS BUTTON FUNCTIONS==============================================================
 
 //RETURN DATA FUNCTIONS========================================================
 
@@ -28,6 +42,12 @@ async function getTimezones() {
   const timezones = await axiosget('timezones')
   return (timezones);
 }
+
+async function getSeasons() {
+  const seasons = await axiosget('seasons')
+  return (seasons);
+}
+
 //RETURN DATA FUNCTIONS========================================================
 
 // MODULAR FUNCTIONS===========================================================
