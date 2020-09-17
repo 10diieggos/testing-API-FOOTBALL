@@ -9,6 +9,9 @@ const prisma = new PrismaClient();
 //axios
 const axios = require("axios");
 
+
+
+
 // TIMEZONE ROUTES
 router.get('/timezones', async (req, res) => {
   const response = await find('api-football-v1.p.rapidapi.com/v2/timezone')
@@ -43,9 +46,12 @@ router.put('/timezones', async (req, res) => {
     res.send(saved)
   }
 })
+// TIMEZONE ROUTES
+
+
+
 
 // SEASONS ROUTES
-
 router.get('/seasons', async (req, res) => {
   const response = await find('api-football-v1.p.rapidapi.com/v2/seasons')
   const updated = response[0]['headers'].date
@@ -67,8 +73,163 @@ router.put('/seasons', async (req, res) => {
     res.send(saved)
   }
 })
-
 // SEASON ROUTES
+
+
+
+
+// COUNTRIES ROUTES
+router.get('/countries', async (req, res) => {
+  const response = await find('api-football-v1.p.rapidapi.com/v2/countries')
+  const updated = response[0]['headers'].date
+  const countries = response[0]['data'].api.countries
+  const results = response[0]['data'].api.results
+  res.send({ results, countries, updated })
+})
+
+router.get('/country/:search', async (req, res) => {
+  let { search } = req.params
+  console.log(search);
+  const response = await find('api-football-v1.p.rapidapi.com/v2/countries')
+  const updated = response[0]['headers'].date
+  let countries = response[0]['data'].api.countries
+  countries = countries.filter(country => {
+    n = country.country.search(search)
+    return n >= 0
+  })
+  res.send({results: countries.length, countries, updated})
+})
+
+router.put('/countries', async (req, res) => {
+  let { origin } = req.body
+  let response = await axiosget(origin)
+  const { headers, data } = response
+  let saved = await find(origin)
+  if (saved.length) {
+    saved = await update(origin, headers, data)
+    res.send(saved)
+  } else {
+    saved = await create(origin, headers, data)
+    res.send(saved)
+  }
+})
+// COUNTRIES ROUTES
+
+
+
+
+
+// LEAGUES ROUTES
+router.get('/leagues', async (req, res) => {
+  const response = await find('api-football-v1.p.rapidapi.com/v2/leagues')
+  const updated = response[0]['headers'].date
+  const leagues = response[0]['data'].api.leagues
+  const results = response[0]['data'].api.results
+  res.send({ results, leagues, updated })
+})
+
+router.get('/league/By/Id/:id', async (req, res) => {
+  let { id } = req.params
+  id = parseInt(id)
+  const response = await find('api-football-v1.p.rapidapi.com/v2/leagues')
+  const updated = response[0]['headers'].date
+  const leagues = response[0]['data'].api.leagues
+  let league = leagues.filter(league => {
+    return league.league_id == id
+  })
+  res.send({ results: league.length, league, updated })
+})
+
+router.get('/leagues/By/Search/:NameOrCountry', async (req, res) => {
+  let search = req.params.NameOrCountry
+  const response = await find('api-football-v1.p.rapidapi.com/v2/leagues')
+  const updated = response[0]['headers'].date
+  const leagues = response[0]['data'].api.leagues
+  let league = leagues.filter(arr => {
+    let n = arr['name'].search(search)
+    let p = arr['country'].search(search)
+    return n >= 0 || p >= 0
+  })
+  res.send({ results: league.length, league, updated })
+})
+
+router.get('/leagues/By/Country/:country', async (req, res) => {
+  let {country} = req.params
+  const response = await find('api-football-v1.p.rapidapi.com/v2/leagues')
+  const updated = response[0]['headers'].date
+  let leagues = response[0]['data'].api.leagues
+  leagues = leagues.filter(league => {
+    return league.country == country
+  })
+  res.send({ results: leagues.length, leagues, updated })
+})
+// LEAGUES ROUTES
+
+
+//TEAMS ROUTES
+router.put('/teams', async (req, res) => {
+  let { origin } = req.body
+  const response = await find('api-football-v1.p.rapidapi.com/v2/countries')
+  const countries = response[0]['data'].api.countries
+
+  let Teams = []
+  for (country of countries) {
+      let neworigin = `${origin}/${country.country}`
+      teams = await find(neworigin)
+      let t = teams[0].data.api.teams
+      Teams = Teams.concat(t)
+  }
+  
+  await update("teams", {"updated": new Date()}, Teams)
+
+  let v = await find('teams')
+  res.send(v)
+
+  // let arrs1 = countries.slice(0, 30)
+  // res.send(arrs1);
+  // let arrs2 = data.api['countries'].slice(30, 60)
+  // console.log(arrs2);
+  // let arrs3 = data.api['countries'].slice(60, 90)
+  // console.log(arrs3);
+  // let arrs4 = data.api['countries'].slice(90, 120)
+  // console.log(arrs4);
+  // let arrs5 = data.api['countries'].slice(120, 150)
+  // console.log(arrs5);
+
+    
+
+
+    // let teams = await get_all_teams_from_each_country()
+    // let total = teams.length
+    // let limit = Math.ceil(total/40)
+    // let start = 0
+    // let end  = start + limit
+    // arrs1 = teams.slice(start, end)
+
+    // console.log(arrs1);
+    // teams = arrs1
+    // let message = await axios.put(`http://${host}:${port}/database/teams/`, {endpoint: 'teams', teams})
+    // console.log(message);
+
+  // } else { console.log('Nothing in database, Call from API!'); }
+})
+
+router.get('/team/by/id/:id', async (req, res) => {
+  let {id} = req.params
+  let teams = await find('teams')
+  teams = teams[0].data
+  team = teams.filter(team => {
+    return team.team_id == id
+  })
+  res.send(team)
+})
+
+
+//TEAMS ROUTES
+
+
+
+
 // MODULAR FUNCTIONS ==========================================================
 
 async function find(origin) {
@@ -111,88 +272,7 @@ async function axiosget(endpoint) {
   })
   return response
 }
-
     
 // MODULAR FUNCTIONS ==========================================================
-
-router.put('/database/api', async (req, res) => {
-  const { endpoint } = req.body
-    
-  const response = await axios({
-    "method": "GET",
-    "url": `https://${endpoint}`,
-    "headers": {
-      "content-type": "application/octet-stream",
-      "x-rapidapi-host": "api-football-v1.p.rapidapi.com",
-      "x-rapidapi-key": RAPIDAPI_KEY,
-      "useQueryString": true
-    }
-  })
-  console.log(response);     
-  const { headers, data } = response
-
-  let saved = await prisma.mydbtable.findMany({where: {origin}})
-  console.log(saved.length)
-  if (saved.length) {
-    await prisma.mydbtable.updateMany({ 
-      where: { origin },
-      data: {
-        headers,
-        data
-      }
-    });
-  } else {
-      await prisma.mydbtable.create({ 
-        data: {
-          origin,
-          headers,
-          data
-        }
-      });
-  }
-
-          
-  const newdbdata = await prisma.mydbtable.findMany({where: {origin}})
-  console.log("Saved in Database: ", newdbdata);
-  res.send(newdbdata);
-  
-})
-      
-router.get('/database/api/:parameters', async (req, res) => {
-  let { parameters }  = req.params
-  endpoint = parameters.replace(/\u0028bar\u0029/g, '/')
-  console.log(endpoint)
-  const dbdata = await prisma.mydbtable.findMany({where: {endpoint}})
-  console.log(dbdata);
-  res.send(dbdata);
-})
-
-router.put('/database/teams', async (req, res) => {
-  const { endpoint, teams } = req.body
-
-  let saved = await prisma.mydbtable.findMany({ where: { endpoint } })
-  
-  if (saved.length) {
-    await prisma.mydbtable.updateMany({ 
-      where: { endpoint },
-      data: {
-        endpoint,
-        headers: new Date(),
-        data: teams
-      }
-    });
-  } else {
-      await prisma.mydbtable.create({ 
-        data: {
-          endpoint,
-          headers: new Date(),
-          data: teams
-        }
-      });
-  }
-  res.send('compiled on database')
-})
-
-
 
 module.exports = router;
