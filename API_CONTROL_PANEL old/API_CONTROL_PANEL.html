@@ -292,7 +292,7 @@
   <p>Allows you to search for a team in relation to a team {name} or {country}
     Spaces must be replaced by underscore for better search performance.
     EX : Real madrid => real_madrid</p>
-  <input id="teamsURL" name="url" style="width: 600px;" type="text" value="api-football-v1.p.rapidapi.com/v2/teams/search/">/{name} or /{country}
+  <input id="teamsURL" name="url" style="width: 600px;" type="text" value="api-football-v1.p.rapidapi.com/v2/teams/search">/{name} or /{country}
   <h3>Response Model</h3>
   {
     "api": {
@@ -322,7 +322,10 @@
   <button onclick="search_all_api_teams('api', teamsURL, countriesURL)">DANGER: Call API and update database for All countries</button>
 
   <h3>Actions in Database</h3>
-  <input id="search_team_by_country_name" type="text" placeholder="country">
+  <input id="search_team_by_team_id" type="text" placeholder="team_id">
+  <button onclick="search_team_by_team_id('database', teamsURL, 'search_team_by_team_id')">Search team by team_id</button>
+  
+  <br><input id="search_team_by_country_name" type="text" placeholder="country">
   <input id="search_team_by_name_country" type="text" placeholder="name">
   <button onclick="search_team_by_country_name('database', teamsURL, 'search_team_by_country_name', 'search_team_by_name_country')">Search teams by country and name</button>
   

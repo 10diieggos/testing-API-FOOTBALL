@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API_CONTROL_PANEL</title>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+  <h1>TIMEZONE</h1>
+  <p>Get the list of available API time zones to be used in the fixtures endpoint</p>
+  <p>Update Frequency : This endpoint contains all the existing timezone, it is not updated.</p>
+  <p>Recommended Calls : 1 call when you need.</p>
+  <h3>Parameters</h3>
+  <p>This endpoint does not require any parameters</p>
+  <h3>Requests</h3>
+  <p>GET</p>
+  <input id="api_timezone_endpoint" name="url" style="width: 600px;" type="text" value="api-football-v1.p.rapidapi.com/v2/timezone">
+  <h3>Response Model</h3>
+  {
+    "api": {
+        "results": 425,
+        "timezone": [
+            "Africa/Abidjan",
+            "Africa/Accra",
+            "Africa/Addis_Ababa",
+            "Africa/Algiers",
+        ]
+    }
+  }
+  <h3>Actions in database</h3>
+  <button onclick="consoleLogTimezones()">GET timezones</button>
+  <br><input id="searchTimezones">
+  <button onclick="searchTimezones('searchTimezones')">search timezones</button>
+  <h3>Actions in API-FOOTBALL(paid)</h3>
+  <button onclick="updateTimezones('api_timezone_endpoint')">Update database</button>
+
+  </body>
+  <script src="API_CONTROL_PANEL.js"></script>
+</html>

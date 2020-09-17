@@ -8,8 +8,9 @@ datasource db {
 }
 
 model mydbtable {
-  id       Int     @default(autoincrement()) @id
-  endpoint String?
-  headers  Json?
-  data     Json?
+  id        Int      @default(autoincrement()) @id
+  origin    String?
+  headers   Json?
+  data      Json?
+  createdAt DateTime @default(now())
 }
